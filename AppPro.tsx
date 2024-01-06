@@ -1,19 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   View,
   StyleSheet,
   Text,
   useColorScheme,
+  Button,
 } from 'react-native';
 const AppPro = (): JSX.Element => {
-  const isDarkMode = useColorScheme() === 'dark';
+  //    useColorScheme() === 'dark';  TELLS US ABOUT SYSTEM THEME
+  //   const isDarkMode = useColorScheme() === 'dark';
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const toggleHandler = () => {
+    setIsDarkMode(!isDarkMode);
+  };
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <Text style={isDarkMode ? styles.whiteText : styles.darkText}>
           Hello World {isDarkMode ? 'Dark' : 'Light'}
         </Text>
+        <Button
+          onPress={toggleHandler}
+          title="Learn More"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
       </View>
     </SafeAreaView>
   );
