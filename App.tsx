@@ -18,8 +18,8 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 export default function App() {
   const PasswordSchema = Yup.object().shape({
     passwordLength: Yup.number()
-      .min(4, ' Should be minimum 4 characters')
-      .max(8, 'Should be maximum 8 characters')
+      .min(8, ' Should be minimum 8 characters')
+      .max(16, 'Should be maximum 16 characters')
       .required('Length is required'),
   });
 
@@ -72,6 +72,13 @@ export default function App() {
       result += characters.charAt(index);
     }
     return result;
+  };
+
+  const resetPasswordState = () => {
+    setIsLowerCase(true);
+    setIsUpperCase(false);
+    setNumbers(false);
+    setSymbols(false);
   };
 
   return (
@@ -163,16 +170,33 @@ export default function App() {
                   <TouchableOpacity
                     disabled={!isValid}
                     style={styles.primaryBtn}
-                    onPress={handleSubmit}>
+                    onPress={() => handleSubmit()}>
                     <Text style={styles.primaryBtnTxt}>
                       Generate a Password
                     </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.secondaryBtn}
+                    onPress={() => {
+                      resetPasswordState();
+                      handleReset();
+                    }}>
+                    <Text style={styles.secondaryBtnTxt}>Reset </Text>
                   </TouchableOpacity>
                 </View>
               </>
             )}
           </Formik>
         </View>
+        {isGenerated && (
+          <View style={[styles.cardElevated, styles.card]}>
+            <Text style={styles.subTitle}>Result:</Text>
+            <Text>Long Press to copy</Text>
+            <Text selectable={true} style={styles.generatedPassword}>
+              {password}
+            </Text>
+          </View>
+        )}
       </SafeAreaView>
     </ScrollView>
   );
@@ -226,9 +250,10 @@ const styles = StyleSheet.create({
   formActions: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginVertical: 8,
   },
   primaryBtn: {
-    width: 120,
+    width: '50%',
     padding: 10,
     borderRadius: 8,
     marginHorizontal: 8,
@@ -240,7 +265,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   secondaryBtn: {
-    width: 120,
+    width: '50%',
     padding: 10,
     borderRadius: 8,
     marginHorizontal: 8,
