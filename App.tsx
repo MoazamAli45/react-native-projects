@@ -188,7 +188,7 @@ export default function App() {
             )}
           </Formik>
         </View>
-        {isGenerated && (
+        {isGenerated ? (
           <View style={[styles.cardElevated, styles.card]}>
             <Text style={styles.subTitle}>Result:</Text>
             <Text>Long Press to copy</Text>
@@ -196,7 +196,7 @@ export default function App() {
               {password}
             </Text>
           </View>
-        )}
+        ) : null}
       </SafeAreaView>
     </ScrollView>
   );
