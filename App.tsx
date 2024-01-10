@@ -1,117 +1,65 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, {useState} from 'react';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  //   STATES  ==============>
+  const [randomBackground, setRandomBackground] = useState('#ffffff');
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const generateBackgroundHandler = () => {
+    const hexList = '0123456789ABCDEF';
+    let bg = '#';
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    //   Hex Code consists of 6 characters so loop till 6
+    for (let i = 0; i < 6; i++) {
+      const index = Math.round(Math.random() * 16); // hexlist is of 16 from that index get value
+      bg += hexList[index];
+    }
+    setRandomBackground(bg);
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      {/*   STATUS BAR WHERE BATTERY AND OTHER NOTIFICATION SHOW */}
+      <StatusBar backgroundColor={'#234f01'} />
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: randomBackground,
+          },
+        ]}>
+        <TouchableOpacity
+          style={styles.actionBtn}
+          onPress={generateBackgroundHandler}>
+          <Text style={styles.actionBtnTxt}>Press me</Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
+  actionBtn: {
+    backgroundColor: '#EC4849',
+    paddingHorizontal: 40,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  actionBtnTxt: {
     fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+    color: 'white',
   },
 });
 
